@@ -2,4 +2,5 @@ env/
 pureButter_project/__pycache__/
 pureButter_project/pureButter_project/__pycache__/
 pureButter_project/product/__pycache__/
+pureButter_project/product/migrations/__pycache__
 pureButter_project/password.py
