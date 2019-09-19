@@ -87,6 +87,7 @@ DATABASES = {
         'PASSWORD': DBPASS,
         'HOST': '',
         'PORT': '5432',
+        'ATOMIC_REQUESTS': True,
     }
 }
 

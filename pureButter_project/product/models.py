@@ -5,12 +5,12 @@ class Category(models.Model):
 
 class User(models.Model):
     login = models.CharField(max_length=50, unique=True)
-    password = models.CharField(max_length=50, unique=True)
 
 class Product(models.Model):
     name = models.CharField(max_length=200)
     nutrition_grades = models.CharField(max_length=1)
     ingredients = models.TextField()
     url = models.CharField(max_length=400)
+    image_url = models.CharField(max_length=400)
     user = models.ManyToManyField(User, related_name='product_id')
     category = models.ForeignKey(Category, on_delete=models.CASCADE)

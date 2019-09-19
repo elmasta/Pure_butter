@@ -10680,6 +10680,16 @@ header.masthead {
   background-size: cover;
 }
 
+header.color {
+  padding-top: 10rem;
+  padding-bottom: calc(10rem - 72px);
+  background-color: rgb(50, 0, 50);
+  background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: scroll;
+  background-size: cover;
+}
+
 header.masthead h1 {
   font-size: 2.25rem;
 }

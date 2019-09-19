@@ -1,0 +1,27 @@
+{% extends 'product/base.html' %}
+
+{% load static %}
+
+{% block content %}
+  <header class="masthead">
+    <div class="container h-100">
+      <div class="row h-100 align-items-center justify-content-center text-center">
+        <form method="post" id="user_exist">
+  		  <p>Connectez vous</p>
+    	  {% csrf_token %}
+    	  {{ form.email }}
+    	  {{ form.password }}
+    	  <button id="connect">Envoyer</button>
+  	 	</form>
+  		<form method="post" id="user_not_exist">
+  		  <p>... Ou créez un compte</p>
+    	  {% csrf_token %}
+    	  {{ form.login }}
+    	  {{ form.email }}
+    	  {{ form.password }}
+    	  <button id="create">Envoyer</button>
+  		</form>
+      </div>
+    </div>
+  </header>
+{% endblock %}

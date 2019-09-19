@@ -40,16 +40,19 @@
       <div class="collapse navbar-collapse" id="navbarResponsive">
         <ul class="navbar-nav ml-auto my-2 my-lg-0">
           <li class="nav-item">
-            <a class="nav-link js-scroll-trigger" href="#about">About</a>
+            <form id="champs">
+              <input type="text" size="20" placeholder="Recherche" required>
+              <button>Chercher</button>
+            </form>
           </li>
           <li class="nav-item">
-            <a class="nav-link js-scroll-trigger" href="#services">Services</a>
+            <a href="/product/user"><img src="{% static 'product/img/noun_User_2856554.png' %}" alt="" title="Mon compte"></a>
           </li>
           <li class="nav-item">
-            <a class="nav-link js-scroll-trigger" href="#portfolio">Portfolio</a>
+            <a href="https://github.com/elmasta"><img src="{% static 'product/img/noun_Carrot_29691.png' %}" alt="" title="Mes aliments"></a>
           </li>
           <li class="nav-item">
-            <a class="nav-link js-scroll-trigger" href="#contact">Contact</a>
+            <a href="https://github.com/elmasta"><img src="{% static 'product/img/noun_logout_1262622.png' %}" alt="" title="Déconnection"></a>
           </li>
         </ul>
       </div>
@@ -61,8 +64,13 @@
   <!-- Footer -->
   <footer class="bg-light py-5">
     <div class="container">
-      <div class="col-lg-4 mr-auto text-center">
-        <div class="small text-center text-muted">mentions legals</div>
+      <div class="row">
+        <div class="col-lg-4 ml-auto text-center mb-5 mb-lg-0">
+          <div class="small text-center text-muted">mentions legals</div>
+        </div>
+        <div class="col-lg-4 mr-auto text-center">
+          <div class="small text-center text-muted">contact</div>
+        </div>
       </div>
     </div>
   </footer>

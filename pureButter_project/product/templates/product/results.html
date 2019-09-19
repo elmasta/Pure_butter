@@ -1,0 +1,18 @@
+{% extends 'product/base.html' %}
+
+{% load static %}
+
+{% block content %}
+  <header class="masthead">
+    <div class="container-fluid p-0">
+      <div class="row no-gutters">
+        {% for product in products %}
+          <div class="col-lg-4 col-sm-6">
+            <img src="{{ product.image_url }}" alt="">
+            <p>{{ product.name }}</p>
+          </div>
+        {% endfor %}
+      </div>
+    </div>
+  </header>
+{% endblock %}
