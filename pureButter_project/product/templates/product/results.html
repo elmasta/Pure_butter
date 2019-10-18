@@ -3,16 +3,31 @@
 {% load static %}
 
 {% block content %}
-  <header class="masthead">
-    <div class="container-fluid p-0">
-      <div class="row no-gutters">
-        {% for product in products %}
-          <div class="col-lg-4 col-sm-6">
-            <img src="{{ product.image_url }}" alt="">
-            <p>{{ product.name }}</p>
-          </div>
-        {% endfor %}
+  <header class="masthead" style="background-color:black">
+    <div class="container h-100">
+      <div class="row h-100 align-items-center justify-content-center text-center">
+        <div class="col-lg-10 align-self-end">
+          <h1 class="text-uppercase text-white font-weight-bold">produit à remplacer</h1>
+        </div>
       </div>
     </div>
   </header>
+
+  <div class="container-fluid p-0">
+    <h1>Vous pouvez remplacer cet aliment par:</h1>
+    <div class="row no-gutters">
+      {% for product in products %}
+        <div class="col-lg-4 col-sm-6">
+          <a href="{{ product.url }}"><img src="{{ product.image_url }}" width="250" height="250" alt=""></a>
+          <p>{{ product.name }}</p>
+          {% if request.user.is_authenticated %}
+            <form action="{% url 'save' %}" method="post" class="form-control">
+              {% csrf_token %}
+              <button name="product_id" value="{{ product.id }}">Sauvegarder</button>
+            </form>
+          {% endif %}
+        </div>
+      {% endfor %}
+    </div>
+  </div>
 {% endblock %}

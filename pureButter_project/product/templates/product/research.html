@@ -1,0 +1,20 @@
+{% load static %}
+
+{% block content %}
+  <form action="{% url 'search' %}" method="post">
+    {% csrf_token %}
+    <input type="text" size="30" placeholder="Recherche" class="form-control" name="query">
+    <select name="category" id="category">
+      <option value="1">Pizzas</option>
+      <option value="2">Boissons</option>
+      <option value="3">Reviolis</option>
+      <option value="4">Pate à tartiner sucré</option>
+      <option value="5">Fromage</option>
+      <option value="6">Plats cuisiné</option>
+      <option value="7">Yahourt</option>
+      <option value="8">Snacks sucré</option>
+      <option value="9">Snacks salé</option>
+    </select>
+    <input type="submit" value="Rechercher" class="form-control">
+  </form>
+{% endblock %}
