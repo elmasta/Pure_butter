@@ -19,8 +19,8 @@ from django.urls import include, path
 from product import views
 
 urlpatterns = [
-    path('', views.index),
-    path('index/', views.index),
+    path('', views.index, name='index'),
+    path('index/', views.index, name='index_two'),
     path('product/', include('product.urls')),
     path('admin/', admin.site.urls),
 ]

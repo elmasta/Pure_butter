@@ -3,25 +3,29 @@
 {% load static %}
 
 {% block content %}
-  <header class="masthead" style="background-color:black">
+  <header class="masthead">
     <div class="container h-100">
       <div class="row h-100 align-items-center justify-content-center text-center">
         <div class="col-lg-10 align-self-end">
-          <h1 class="text-uppercase text-white font-weight-bold">produit à remplacer</h1>
+          <h1 class="text-uppercase text-white font-weight-bold">Vous avez cherché: {{ query }}</h1>
         </div>
+        <div class="col-lg-8 align-self-baseline"></div>
       </div>
     </div>
   </header>
 
   <div class="container-fluid p-0">
-    <h1>Vous pouvez remplacer cet aliment par:</h1>
-    <div class="row no-gutters">
+    <div class="row h-100 align-items-center justify-content-center text-center">
+      <h1 class="custom text-uppercase font-weight-bold my-5">Vous pouvez remplacer cet aliment par:</h1>
+    </div>
+    <div class="row h-100 no-gutters align-items-center justify-content-center text-center">
       {% for product in products %}
-        <div class="col-lg-4 col-sm-6">
-          <a href="{{ product.url }}"><img src="{{ product.image_url }}" width="250" height="250" alt=""></a>
+        <div class="col-lg-4 col-sm-6 my-2 parent">
+          <a class="back" href="{% url 'product_page' product_id=product.id %}"><img src="{{ product.image_url }}" width="250" height="250" alt=""></a>
+          <img class="front" src="{% static 'product/img/na.png' %}" width="50" height="50" alt="">
           <p>{{ product.name }}</p>
           {% if request.user.is_authenticated %}
-            <form action="{% url 'save' %}" method="post" class="form-control">
+            <form action="{% url 'save' %}" method="post">
               {% csrf_token %}
               <button name="product_id" value="{{ product.id }}">Sauvegarder</button>
             </form>

@@ -10,5 +10,6 @@ class Product(models.Model):
     ingredients = models.TextField()
     url = models.CharField(max_length=400)
     image_url = models.CharField(max_length=400)
+    nutrional_url = models.CharField(max_length=400)
     user = models.ManyToManyField(User, related_name='product_id')
     category = models.ForeignKey(Category, on_delete=models.CASCADE)

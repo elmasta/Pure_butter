@@ -1,10 +1,10 @@
-from django.shortcuts import render
+from django.shortcuts import get_list_or_404
 from django.template import loader
 from django.http import HttpResponse
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
-from django.core.paginator import Paginator
-from .models import Category, Product
+from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
+from .models import Product
 
 def index(request):
 
@@ -17,17 +17,21 @@ def search(request):
         query = request.POST.get('query')
         category = request.POST.get('category')
         if not query:
-            products = Product.objects.filter(category=category)[:6]
+            products = get_list_or_404(Product.objects.order_by(
+                'nutrition_grades'), category=category)[:6]
         else:
-            products = Product.objects.filter(category=category).filter(name__icontains=query)[:6]
-        context = {"products": products}
+            products = get_list_or_404(Product.objects.order_by(
+                'nutrition_grades'), category=category,
+                                       name__icontains=query)[:6]
+        context = {"products": products, "query": query}
         template = loader.get_template('product/results.html')
         return HttpResponse(template.render(context, request=request))
 
 def user_page(request):
 
     if request.user.is_authenticated:
-        context = {"user_name": request.user.username}
+        context = {"user_name": request.user.username,
+                   "user_email": request.user.email}
         template = loader.get_template('product/user.html')
         return HttpResponse(template.render(context, request=request))
     else:
@@ -42,18 +46,18 @@ def create_user(request):
         create_password = request.POST.get('create_password')
         if create_username and create_email and create_password:
             if User.objects.filter(email=create_email).exists():
-                context = {"error": "Cet email est déjà utilisé."}
+                context = {"errorc": "Cet email est déjà utilisé."}
             elif User.objects.filter(username=create_username).exists():
-                context = {"error": "Ce pseudo est déjà utilisé."}
+                context = {"errorc": "Ce pseudo est déjà utilisé."}
             else:
                 User.objects.create_user(
                     email=create_email,
                     username=create_username,
-                    password=create_password
-                )
-                context = {"created": "Votre compte a été crée, connectez vous!"}
+                    password=create_password)
+                context = {"created":
+                           "Votre compte a été crée, connectez vous!"}
         else:
-            context = {"error": "Remplissez tous les champs."}
+            context = {"errorc": "Remplissez tous les champs."}
         template = loader.get_template('product/login.html')
         return HttpResponse(template.render(context, request=request))
 
@@ -64,22 +68,26 @@ def connect_user(request):
         login_password = request.POST.get('login_password')
         if login_username and login_password:
             if User.objects.filter(username=login_username).exists():
-                user = authenticate(username=login_username, password=login_password)
+                user = authenticate(username=login_username,
+                                    password=login_password)
                 if user is not None:
                     login(request, user)
-                    context = {"user_name": request.user.username}
+                    context = {"user_name": request.user.username,
+                               "user_email": request.user.email}
                     template = loader.get_template('product/user.html')
-                    return HttpResponse(template.render(context, request=request))
+                    return HttpResponse(template.render(context,
+                                                        request=request))
                 else:
-                    context = {"error": "Le mot de passe est incorrect."}
+                    context = {"errorl": "Le mot de passe est incorrect."}
                     template = loader.get_template('product/login.html')
-                    return HttpResponse(template.render(context, request=request))
+                    return HttpResponse(template.render(context,
+                                                        request=request))
             else:
-                context = {"error": "L'utilisateur n'existe pas."}
+                context = {"errorl": "L'utilisateur n'existe pas."}
                 template = loader.get_template('product/login.html')
                 return HttpResponse(template.render(context, request=request))
         else:
-            context = {"error": "Remplissez tous les champs."}
+            context = {"errorl": "Remplissez tous les champs."}
             template = loader.get_template('product/login.html')
             return HttpResponse(template.render(context, request=request))
 
@@ -88,10 +96,35 @@ def save(request):
     if request.method == 'POST':
         product_to_save = request.POST.get('product_id')
         product_obj = Product(id=product_to_save)
-        print(product_obj)
         product_obj.user.add(request.user.id)
-        template = loader.get_template('product/index.html')
-        return HttpResponse(template.render(request=request))
+        product = Product.objects.get(id=product_to_save)
+        nutripicture = "product/img/n" + product.nutrition_grades + ".png"
+        context = {"product": product, "nutripicture": nutripicture}
+        template = loader.get_template('product/product.html')
+        return HttpResponse(template.render(context, request=request))
+
+def product_page(request, product_id):
+
+    product = Product.objects.get(id=product_id)
+    nutripicture = "product/img/n" + product.nutrition_grades + ".png"
+    context = {"product": product, "nutripicture": nutripicture}
+    template = loader.get_template('product/product.html')
+    return HttpResponse(template.render(context, request=request))
+
+def user_product(request):
+
+    products = Product.objects.filter(user=request.user.id).order_by('id')
+    paginator = Paginator(products, 6)
+    page = request.GET.get('page')
+    try:
+        product = paginator.page(page)
+    except PageNotAnInteger:
+        product = paginator.page(1)
+    except EmptyPage:
+        product = paginator.page(paginator.num_pages)
+    context = {"products": product, "paginate": True}
+    template = loader.get_template('product/myproduct.html')
+    return HttpResponse(template.render(context, request=request))
 
 def user_logout(request):
 

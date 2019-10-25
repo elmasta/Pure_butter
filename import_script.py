@@ -45,7 +45,8 @@ for each_categories in CATEGORIES:
                    each_product["id"] != "" and\
                    each_product["nutrition_grades"] != "" and\
                    each_product["url"] != "" and\
-                   each_product["image_url"] != "":
+                   each_product["image_url"] != "" and\
+                   each_product["image_nutrition_url"] != "":
                     clean_product_name =\
                         each_product["product_name"].replace("\\n", " ")
                     clean_product_name =\
@@ -57,12 +58,13 @@ for each_categories in CATEGORIES:
                         clean_ingredient.replace("\\r", " ")
                     sql = """INSERT INTO product_product (name,
                             nutrition_grades, ingredients, url,
-                            image_url, category_id)
-                            VALUES (%s, %s, %s, %s, %s, %s)"""
+                            image_url, nutrional_url ,category_id)
+                            VALUES (%s, %s, %s, %s, %s, %s, %s)"""
                     val = (clean_product_name,
                            each_product["nutrition_grades"],
                            clean_ingredient, each_product["url"],
                            each_product["image_url"],
+                           each_product["image_nutrition_url"],
                            (CATEGORIES.index(each_categories) + 1))
                     CURSORDB.execute(sql, val)
                     CONNECTION.commit()

@@ -1,0 +1,39 @@
+{% extends 'product/base.html' %}
+
+{% load static %}
+
+{% block content %}
+  <header class="account colored">
+    <div class="container h-100">
+      <div class="row h-100 align-items-center justify-content-center text-center">
+        <div class="col-lg-10 align-self-end">
+          <h1 class="text-uppercase text-white font-weight-bold">Vos Produits enregistré</h1>
+        </div>
+        <div class="col-lg-8 align-self-baseline"></div>
+      </div>
+    </div>
+  </header>
+
+  <div class="container-fluid p-0">
+    <div class="row h-100 no-gutters align-items-center justify-content-center text-center my-5">
+      {% for product in products %}
+        <div class="col-lg-4 col-sm-6 parent">
+          <a class="back" href="{{ product.url }}"><img src="{{ product.image_url }}" width="250" height="250" alt=""></a>
+          <img class="front" src="{% static 'product/img/na.png' %}" width="50" height="50" alt="">
+          <p>{{ product.name }}</p>
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+
+  {% if paginate %}
+    <div class="align-items-center justify-content-center text-center my-5">
+      {% if products.has_previous %}
+        <form action="?page={{ products.previous_page_number }}"><button>Précédent</button></form>
+      {% endif %}
+      {% if products.has_next %}
+        <form action="?page={{ products.next_page_number }}"><button>Suivant</button></form>
+      {% endif %}
+    </div>
+  {% endif %}
+{% endblock %}

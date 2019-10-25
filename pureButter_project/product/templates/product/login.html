@@ -5,24 +5,29 @@
 {% block content %}
   <header class="masthead">
     <div class="container h-100">
-      <p>{{ created }}</p>
-      <div class="row h-100 align-items-center justify-content-center text-center">
-        <form action="{% url 'connect_user' %}" method="post">
-  		  <p>Connectez vous</p>
-    	  {% csrf_token %}
-    	  <input type="text" size="30" placeholder="Pseudo" class="form-control" name="login_username">
-    	  <input type="password" size="30" placeholder="Mot de passe" class="form-control" name="login_password">
-    	  <input type="submit" name="login" value="Connexion" />
-  	 	</form>
-  	 	<p>{{ error }}</p>
-  		<form action="{% url 'create_user' %}" method="post">
-  		  <p>... Ou créez un compte</p>
-    	  {% csrf_token %}
-    	  <input type="text" size="30" placeholder="Pseudo" class="form-control" name="create_username">
-    	  <input type="email" size="30" placeholder="Email" class="form-control" name="create_email">
-    	  <input type="password" size="30" placeholder="Mot de passe" class="form-control" name="create_password">
-    	  <input type="submit" name="create" value="Créer" />
-  		</form>
+      <div class="row my-5 align-items-center justify-content-center text-center text-uppercase text-white font-weight-bold"><h1>{{ created }}</h1></div>
+      <div class="row h-50 align-items-center justify-content-center text-center">
+        <div class="col-lg-4 ml-auto text-center mb-5 mb-lg-0">
+          <form action="{% url 'connect_user' %}" method="post">
+  		      <p class="text-white">Connectez vous</p>
+    	      {% csrf_token %}
+    	      <input type="text" size="30" placeholder="Pseudo" class="form-control" name="login_username">
+    	      <input type="password" size="30" placeholder="Mot de passe" class="form-control" name="login_password">
+    	      <input type="submit" name="login" value="Connexion" />
+            <p style="color:red;">{{ errorl }}</p>
+  	 	    </form>
+        </div>
+        <div class="col-lg-4 mr-auto text-center">
+  		    <form action="{% url 'create_user' %}" method="post">
+  		      <p class="text-white">... Ou créez un compte</p>
+    	      {% csrf_token %}
+    	      <input type="text" size="30" placeholder="Pseudo" class="form-control" name="create_username">
+    	      <input type="email" size="30" placeholder="Email" class="form-control" name="create_email">
+    	      <input type="password" size="30" placeholder="Mot de passe" class="form-control" name="create_password">
+    	      <input type="submit" name="create" value="Créer" />
+            <p style="color:red;">{{ errorc }}</p>
+  		    </form>
+        </div>
       </div>
     </div>
   </header>
