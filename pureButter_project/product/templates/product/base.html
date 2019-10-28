@@ -45,7 +45,7 @@
       <div class="collapse navbar-collapse" id="navbarResponsive">
         <ul class="navbar-nav ml-auto my-2 my-lg-0">
           {% include "product/research.html" %}
-          <li class="nav-item">
+          <li class="nav-item pt-1 pl-4">
             <a href="/product/user"><img src="{% static 'product/img/noun_User_2856554.png' %}" alt="" title="Mon compte"></a>
           </li>
           {% if request.user.is_authenticated %}
@@ -53,11 +53,12 @@
               <a href="{% url 'user_product' %}"><img src="{% static 'product/img/noun_Carrot_29691.png' %}" alt="" title="Mes aliments"></a>
             </li>
           {% endif %}
-          <li class="nav-item">
-            {% if request.user.is_authenticated %}
+          {% if request.user.is_authenticated %}
+            <li class="nav-item pt-1">
               <a href="{% url 'user_logout' %}">
             {% else %}
-              <a href="/index">
+              <li class="nav-item pt-1 pl-2">
+                <a href="/index">
             {% endif %}
               <img src="{% static 'product/img/noun_logout_1262622.png' %}" alt="" title="Déconnection">
             </a>

@@ -103,7 +103,7 @@ header.account p {
 
 @media (min-width: 992px) {
   header.account {
-    height: 50vh;
+    height: 35vh;
     min-height: 20rem;
     padding-top: 36px;
     padding-bottom: 0;

@@ -3,7 +3,7 @@
 {% load static %}
 
 {% block content %}
-  <header class="masthead">
+  <header class="product{{ category }} picture">
     <div class="container h-100">
       <div class="row h-100 align-items-center justify-content-center text-center">
         <div class="col-lg-10 align-self-end">
@@ -22,12 +22,14 @@
       {% for product in products %}
         <div class="col-lg-4 col-sm-6 my-2 parent">
           <a class="back" href="{% url 'product_page' product_id=product.id %}"><img src="{{ product.image_url }}" width="250" height="250" alt=""></a>
-          <img class="front" src="{% static 'product/img/na.png' %}" width="50" height="50" alt="">
+          {% with nutripic="product/img/n"|add:product.nutrition_grades|add:".png" %}
+            <img class="front" src="{% static nutripic %}" width="50" height="50" alt="">
+          {% endwith %}
           <p>{{ product.name }}</p>
           {% if request.user.is_authenticated %}
             <form action="{% url 'save' %}" method="post">
               {% csrf_token %}
-              <button name="product_id" value="{{ product.id }}">Sauvegarder</button>
+              <button name="product_id" value="{{ product.id }}" class="btn btn-primary">Sauvegarder</button>
             </form>
           {% endif %}
         </div>

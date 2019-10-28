@@ -23,9 +23,12 @@ def search(request):
             products = get_list_or_404(Product.objects.order_by(
                 'nutrition_grades'), category=category,
                                        name__icontains=query)[:6]
-        context = {"products": products, "query": query}
+        context = {"products": products, "query": query, "category":category}
         template = loader.get_template('product/results.html')
         return HttpResponse(template.render(context, request=request))
+    else:
+        template = loader.get_template('product/index.html')
+        return HttpResponse(template.render(request=request))
 
 def user_page(request):
 
@@ -60,6 +63,9 @@ def create_user(request):
             context = {"errorc": "Remplissez tous les champs."}
         template = loader.get_template('product/login.html')
         return HttpResponse(template.render(context, request=request))
+    else:
+        template = loader.get_template('product/index.html')
+        return HttpResponse(template.render(request=request))
 
 def connect_user(request):
 
@@ -90,6 +96,9 @@ def connect_user(request):
             context = {"errorl": "Remplissez tous les champs."}
             template = loader.get_template('product/login.html')
             return HttpResponse(template.render(context, request=request))
+    else:
+        template = loader.get_template('product/index.html')
+        return HttpResponse(template.render(request=request))
 
 def save(request):
 
@@ -102,6 +111,9 @@ def save(request):
         context = {"product": product, "nutripicture": nutripicture}
         template = loader.get_template('product/product.html')
         return HttpResponse(template.render(context, request=request))
+    else:
+        template = loader.get_template('product/index.html')
+        return HttpResponse(template.render(request=request))
 
 def product_page(request, product_id):
 
