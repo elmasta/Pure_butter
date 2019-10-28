@@ -3,7 +3,7 @@
 import json
 import requests
 import psycopg2
-from pureButter_project.password import DBPASS
+import os
 
 CATEGORIES = ["pizzas", "non-alcoholic-beverages", "ravioli", "sweet-spreads",
               "cheeses", "frozen-ready-made-meals", "yogurts", "sweet-snacks",
@@ -12,7 +12,7 @@ CATEGORIES = ["pizzas", "non-alcoholic-beverages", "ravioli", "sweet-spreads",
 # connection to postgresql
 try:
     CONNECTION = psycopg2.connect(user="postgres",
-                                  password=DBPASS,
+                                  password=str(os.getenv("DBPASS")),
                                   host="127.0.0.1",
                                   port="5432",
                                   database="pure_butter")

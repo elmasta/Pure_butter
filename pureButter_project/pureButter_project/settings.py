@@ -21,10 +21,12 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/2.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.environ.get('SECRET_KEY')
+
+SECRET_KEY = str(os.getenv("SECRET_KEY"))
 
 # SECURITY WARNING: don't run with debug turned on in production!
-if os.environ.get('ENV') == 'PRODUCTION':
+
+if str(os.getenv("ENV")) == 'PRODUCTION':
     DEBUG = False
 else:
     DEBUG = True
@@ -89,7 +91,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'pure_butter',
         'USER': 'postgres',
-        'PASSWORD': os.environ.get('DBPASS'),
+        'PASSWORD': str(os.getenv("DBPASS")),
         'HOST': '',
         'PORT': '5432',
         'ATOMIC_REQUESTS': True,
@@ -135,7 +137,7 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
-if os.environ.get('ENV') == 'PRODUCTION':
+if str(os.getenv("ENV")) == 'PRODUCTION':
 
     # Static files settings
     PROJECT_ROOT = os.path.dirname(os.path.abspath(__file__))
@@ -147,8 +149,6 @@ if os.environ.get('ENV') == 'PRODUCTION':
         os.path.join(PROJECT_ROOT, 'static'),
     )
 
-if os.environ.get('ENV') == 'PRODUCTION':
-    # ...
     # Simplified static file serving.
     # https://warehouse.python.org/project/whitenoise/
     STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'

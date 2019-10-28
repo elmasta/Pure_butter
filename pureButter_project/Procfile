@@ -1,1 +1,1 @@
-web: gunicorn product_project.wsgi
+web: gunicorn pureButter_project.wsgi
