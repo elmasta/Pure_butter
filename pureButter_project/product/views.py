@@ -107,8 +107,10 @@ def save(request):
         product_obj = Product(id=product_to_save)
         product_obj.user.add(request.user.id)
         product = Product.objects.get(id=product_to_save)
+        registered = True
         nutripicture = "product/img/n" + product.nutrition_grades + ".png"
-        context = {"product": product, "nutripicture": nutripicture}
+        context = {"product": product, "nutripicture": nutripicture,
+                   "registered": registered}
         template = loader.get_template('product/product.html')
         return HttpResponse(template.render(context, request=request))
     else:
@@ -118,8 +120,14 @@ def save(request):
 def product_page(request, product_id):
 
     product = Product.objects.get(id=product_id)
+    registered = False
+    user_products = Product.objects.filter(user=request.user.id)
+    for item in user_products:
+        if item.id == int(product_id):
+            registered = True
     nutripicture = "product/img/n" + product.nutrition_grades + ".png"
-    context = {"product": product, "nutripicture": nutripicture}
+    context = {"product": product, "nutripicture": nutripicture,
+               "registered": registered}
     template = loader.get_template('product/product.html')
     return HttpResponse(template.render(context, request=request))
 

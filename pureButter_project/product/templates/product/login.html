@@ -12,8 +12,8 @@
   		      <p class="text-white">Connectez vous</p>
     	      {% csrf_token %}
     	      <input type="text" size="30" placeholder="Pseudo" class="form-control" name="login_username">
-    	      <input type="password" size="30" placeholder="Mot de passe" class="form-control" name="login_password">
-    	      <input type="submit" name="login" value="Connexion" />
+    	      <input type="password" size="30" placeholder="Mot de passe" class="form-control mt-2" name="login_password">
+    	      <input type="submit" name="login" value="Connexion" class="btn btn-info mt-2"/>
             <p style="color:red;">{{ errorl }}</p>
   	 	    </form>
         </div>
@@ -22,9 +22,9 @@
   		      <p class="text-white">... Ou créez un compte</p>
     	      {% csrf_token %}
     	      <input type="text" size="30" placeholder="Pseudo" class="form-control" name="create_username">
-    	      <input type="email" size="30" placeholder="Email" class="form-control" name="create_email">
-    	      <input type="password" size="30" placeholder="Mot de passe" class="form-control" name="create_password">
-    	      <input type="submit" name="create" value="Créer" />
+    	      <input type="email" size="30" placeholder="Email" class="form-control mt-2" name="create_email">
+    	      <input type="password" size="30" placeholder="Mot de passe" class="form-control mt-2" name="create_password">
+    	      <input type="submit" name="create" value="Créer" class="btn btn-info mt-2"/>
             <p style="color:red;">{{ errorc }}</p>
   		    </form>
         </div>

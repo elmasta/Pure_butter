@@ -1,7 +1,6 @@
 {% load static %}
 
 {% block content %}
-<li class="nav-item pt-2">
   <form action="{% url 'search' %}" method="post">
     {% csrf_token %}
     <input type="text" size="30" placeholder="Recherche" class="nav-item" name="query" size="4">
@@ -18,5 +17,4 @@
     </select>
     <input type="submit" value="Rechercher" class="nav-item btn btn-success">
   </form>
-</li>
 {% endblock %}
