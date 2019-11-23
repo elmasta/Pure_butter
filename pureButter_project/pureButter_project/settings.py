@@ -31,7 +31,7 @@ if str(os.getenv("ENV")) == 'PRODUCTION':
 else:
     DEBUG = True
 
-ALLOWED_HOSTS = ["swapproduct.herokuapp.com"]
+ALLOWED_HOSTS = ["swapproduct.herokuapp.com", "127.0.0.1"]
 
 
 # Application definition

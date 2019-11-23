@@ -151,3 +151,8 @@ def user_logout(request):
     logout(request)
     template = loader.get_template('product/index.html')
     return HttpResponse(template.render(request=request))
+
+def legal_notice(request):
+
+    template = loader.get_template('product/legalnotice.html')
+    return HttpResponse(template.render(request=request))

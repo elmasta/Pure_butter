@@ -9,5 +9,6 @@ urlpatterns = [
     path('user/logout', views.user_logout, name='user_logout'),
     path('product_info', views.save, name='save'),
     path('info/<product_id>', views.product_page, name='product_page'),
-    path('user_product', views.user_product, name='user_product')
+    path('user_product', views.user_product, name='user_product'),
+    path('legal_notice', views.legal_notice, name='legal_notice')
 ]
