@@ -1,0 +1,14 @@
+language: python
+python:
+  - '3.6'
+
+before_script:
+  - pip install -r ./pureButter_project/requirements.txt
+
+env: DJANGO_SETTINGS_MODULE="pureButter_project.settings.travis"
+
+services:
+  - postgresql
+
+script:
+  - ./pureButter_project/manage.py test
