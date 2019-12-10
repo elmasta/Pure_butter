@@ -1,0 +1,141 @@
+header.account {
+  padding-top: 5rem;
+  padding-bottom: calc(5rem - 36px);
+  background: #e8a75d;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: scroll;
+  background-size: cover;
+}
+
+header.colored {
+  background: #e8a75d;
+}
+
+header.picture {
+  padding-top: 10rem;
+  padding-bottom: calc(10rem - 72px);
+  background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: scroll;
+  background-size: cover;
+}
+
+h1.custom {
+  font-size: 2.25rem;
+  font-family: "Open Sans", sans-serif;
+}
+
+@media (min-width: 992px) {
+  header.picture {
+    height: 100vh;
+    min-height: 40rem;
+    padding-top: 72px;
+    padding-bottom: 0;
+  }
+  header.picture p {
+    font-size: 1.15rem;
+  }
+  header.picture h1 {
+    font-size: 3rem;
+  }
+}
+
+@media (min-width: 1200px) {
+  header.picture h1 {
+    font-size: 3.5rem;
+  }
+}
+
+header.product1 {
+  background: -webkit-gradient(linear, left top, left bottom, from(rgba(92, 77, 66, 0.8)), to(rgba(92, 77, 66, 0.8))), url("../img/pizza.2a807efc254b.jpg");
+  background: linear-gradient(to bottom, rgba(92, 77, 66, 0.8) 0%, rgba(92, 77, 66, 0.8) 100%), url("../img/pizza.2a807efc254b.jpg");
+}
+
+header.product2 {
+  background: -webkit-gradient(linear, left top, left bottom, from(rgba(92, 77, 66, 0.8)), to(rgba(92, 77, 66, 0.8))), url("../img/orange-juice.25f57b74cd55.jpg");
+  background: linear-gradient(to bottom, rgba(92, 77, 66, 0.8) 0%, rgba(92, 77, 66, 0.8) 100%), url("../img/orange-juice.25f57b74cd55.jpg");
+}
+
+header.product3 {
+  background: -webkit-gradient(linear, left top, left bottom, from(rgba(92, 77, 66, 0.8)), to(rgba(92, 77, 66, 0.8))), url("../img/raviolis.a2ea9e9ac093.jpg");
+  background: linear-gradient(to bottom, rgba(92, 77, 66, 0.8) 0%, rgba(92, 77, 66, 0.8) 100%), url("../img/raviolis.a2ea9e9ac093.jpg");
+}
+
+header.product4 {
+  background: -webkit-gradient(linear, left top, left bottom, from(rgba(92, 77, 66, 0.8)), to(rgba(92, 77, 66, 0.8))), url("../img/pate-tartiner.8769a11bc564.jpg");
+  background: linear-gradient(to bottom, rgba(92, 77, 66, 0.8) 0%, rgba(92, 77, 66, 0.8) 100%), url("../img/pate-tartiner.8769a11bc564.jpg");
+}
+
+header.product5 {
+  background: -webkit-gradient(linear, left top, left bottom, from(rgba(92, 77, 66, 0.8)), to(rgba(92, 77, 66, 0.8))), url("../img/fromage.522f1b952743.jpg");
+  background: linear-gradient(to bottom, rgba(92, 77, 66, 0.8) 0%, rgba(92, 77, 66, 0.8) 100%), url("../img/fromage.522f1b952743.jpg");
+}
+
+header.product6 {
+  background: -webkit-gradient(linear, left top, left bottom, from(rgba(92, 77, 66, 0.8)), to(rgba(92, 77, 66, 0.8))), url("../img/plat.f1925c7a3027.jpg");
+  background: linear-gradient(to bottom, rgba(92, 77, 66, 0.8) 0%, rgba(92, 77, 66, 0.8) 100%), url("../img/plat.f1925c7a3027.jpg");
+}
+
+header.product7 {
+  background: -webkit-gradient(linear, left top, left bottom, from(rgba(92, 77, 66, 0.8)), to(rgba(92, 77, 66, 0.8))), url("../img/yaourt.fed76558a097.jpg");
+  background: linear-gradient(to bottom, rgba(92, 77, 66, 0.8) 0%, rgba(92, 77, 66, 0.8) 100%), url("../img/yaourt.fed76558a097.jpg");
+}
+
+header.product8 {
+  background: -webkit-gradient(linear, left top, left bottom, from(rgba(92, 77, 66, 0.8)), to(rgba(92, 77, 66, 0.8))), url("../img/snack-sucre.2449cab038ef.jpg");
+  background: linear-gradient(to bottom, rgba(92, 77, 66, 0.8) 0%, rgba(92, 77, 66, 0.8) 100%), url("../img/snack-sucre.2449cab038ef.jpg");
+}
+
+header.product9 {
+  background: -webkit-gradient(linear, left top, left bottom, from(rgba(92, 77, 66, 0.8)), to(rgba(92, 77, 66, 0.8))), url("../img/snack-sale.69744dad58ea.jpg");
+  background: linear-gradient(to bottom, rgba(92, 77, 66, 0.8) 0%, rgba(92, 77, 66, 0.8) 100%), url("../img/snack-sale.69744dad58ea.jpg");
+}
+
+p.custom {
+  font-family: "Scope One", sans-serif;
+  font-size: 1.5rem;
+}
+
+header.account p {
+  font-family: "Scope One", sans-serif;
+}
+
+@media (min-width: 992px) {
+  header.account {
+    height: 35vh;
+    min-height: 20rem;
+    padding-top: 36px;
+    padding-bottom: 0;
+  }
+  header.account p {
+    font-size: 1.15rem;
+  }
+  header.account h1 {
+    font-size: 3rem;
+  }
+}
+
+@media (min-width: 1200px) {
+  header.account h1 {
+    font-size: 3.5rem;
+  }
+}
+
+.parent {
+  position: relative;
+  top: 0;
+  left: 0;
+}
+
+.back {
+  position: relative;
+  top: 0;
+  left: 0;
+}
+
+.front { 
+  position: absolute;
+  left: 60%;
+  top: 4%;
+}

@@ -5,3 +5,4 @@ pureButter_project/product/__pycache__/
 pureButter_project/product/migrations/__pycache__
 pureButter_project/.gitignore
 pureButter_project/pureButter_project/settings/production.py
+pureButter_project/pureButter_project/settings/__pycache__/
