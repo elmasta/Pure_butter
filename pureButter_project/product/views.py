@@ -1,3 +1,4 @@
+import logging
 from django.shortcuts import get_list_or_404
 from django.template import loader
 from django.http import HttpResponse
@@ -5,6 +6,8 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 from .models import Product
+
+logger = logging.getLogger(__name__)
 
 def index(request):
 
@@ -25,6 +28,9 @@ def search(request):
                                        name__icontains=query)[:6]
         context = {"products": products, "query": query, "category":category}
         template = loader.get_template('product/results.html')
+        logger.info('New search', exc_info=True, extra={
+            'request': request,
+        })
         return HttpResponse(template.render(context, request=request))
     else:
         template = loader.get_template('product/index.html')
