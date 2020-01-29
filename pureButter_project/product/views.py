@@ -162,3 +162,24 @@ def legal_notice(request):
 
     template = loader.get_template('product/legalnotice.html')
     return HttpResponse(template.render(request=request))
+
+def delete(request):
+
+    del_mess = False
+    if request.method == 'POST':
+        product_to_delete = request.POST.get('product_id')
+        product_obj = Product(id=product_to_delete)
+        product_obj.user.remove(request.user.id)
+        del_mess = True
+    products = Product.objects.filter(user=request.user.id).order_by('id')
+    paginator = Paginator(products, 6)
+    page = request.GET.get('page')
+    try:
+        product = paginator.page(page)
+    except PageNotAnInteger:
+        product = paginator.page(1)
+    except EmptyPage:
+        product = paginator.page(paginator.num_pages)
+    context = {"products": product, "paginate": True, "del_mess": del_mess}
+    template = loader.get_template('product/myproduct.html')
+    return HttpResponse(template.render(context, request=request))

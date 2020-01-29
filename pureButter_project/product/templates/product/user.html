@@ -9,6 +9,7 @@
         <div class="col-lg-10 align-self-end"></div>
         <div class="col-lg-10 align-self-baseline">
           <h1 class="text-uppercase text-white font-weight-bold">Ahoy! Bienvenue {{ user_name }}!</h1>
+          <h2 class="text-uppercase text-success font-weight-bold">{{ change }}</h2>
         </div>
       </div>
     </div>
@@ -19,6 +20,30 @@
       <div class="row align-items-center justify-content-center text-center py-5 my-5">
         <div class="col-lg-9 align-self-baseline ">
           <p class="custom">Votre email est: {{ user_email }}</p>
+        </div>
+        <div class="col-lg-4">
+          <form action="{% url 'change_username' %}" method="post">
+            <p class="text-white">Changez votre pseudo</p>
+            {% csrf_token %}
+            <input type="text" size="30" placeholder="Nouveau pseudo" class="form-control" name="change_username">
+            <input type="password" size="30" placeholder="Tapez votre mot de passe" class="form-control mt-2" name="password">
+            <input type="submit" name="change_username" value="Changer" class="btn btn-info mt-2"/>
+          </form>
+          <form action="{% url 'change_password' %}" method="post">
+            <p class="text-white">Changez mot de passe</p>
+            {% csrf_token %}
+            <input type="password" size="30" placeholder="Nouveau mot de passe" class="form-control" name="change_password">
+            <input type="password" size="30" placeholder="Retapez votre nouveau mot de passe" class="form-control mt-2" name="new_password">
+            <input type="password" size="30" placeholder="Tapez votre ancien mot de passe" class="form-control mt-2" name="old_password">
+            <input type="submit" name="change_password" value="Changer" class="btn btn-info mt-2"/>
+          </form>
+          <form action="{% url 'change_email' %}" method="post">
+            <p class="text-white">Changez votre email</p>
+            {% csrf_token %}
+            <input type="email" size="30" placeholder="Nouvel email" class="form-control mt-2" name="change_email">
+            <input type="password" size="30" placeholder="Tapez votre mot de passe" class="form-control mt-2" name="password">
+            <input type="submit" name="change_pemail" value="Changer" class="btn btn-info mt-2"/>
+          </form>
         </div>
       </div>
     </div>

@@ -85,8 +85,8 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'pure_butter',
-        'USER': 'valentin',
-        'PASSWORD': '',
+        'USER': 'postgres',
+        'PASSWORD': str(os.getenv("DBPASS")),
         'HOST': '',
         'PORT': '5432',
         'ATOMIC_REQUESTS': True,
