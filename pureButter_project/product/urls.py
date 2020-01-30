@@ -12,7 +12,7 @@ urlpatterns = [
     path('info/<product_id>', views.product_page, name='product_page'),
     path('user_product', views.user_product, name='user_product'),
     path('legal_notice', views.legal_notice, name='legal_notice'),
-    path('change_username', views.legal_notice, name='change_username'),
-    path('change_password', views.legal_notice, name='change_password'),
-    path('change_email', views.legal_notice, name='change_email')
+    path('change_username', views.change_username, name='change_username'),
+    path('change_password', views.change_password, name='change_password'),
+    path('change_email', views.change_email, name='change_email')
 ]

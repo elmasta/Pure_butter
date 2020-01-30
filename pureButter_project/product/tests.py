@@ -45,13 +45,6 @@ class StatusCodeTestCase(TestCase):
         response = self.client.get(reverse('create_user'))
         self.assertEqual(response.status_code, 200)
 
-    def test_search_toindex(self):
-        """Test if the 'search' path return the index page if no post
-        methode"""
-
-        response = self.client.get(reverse('search'))
-        self.assertEqual(response.status_code, 200)
-
 class UserTestCase(TestCase):
     """User related testing class"""
 

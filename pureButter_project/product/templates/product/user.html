@@ -27,7 +27,7 @@
             {% csrf_token %}
             <input type="text" size="30" placeholder="Nouveau pseudo" class="form-control" name="change_username">
             <input type="password" size="30" placeholder="Tapez votre mot de passe" class="form-control mt-2" name="password">
-            <input type="submit" name="change_username" value="Changer" class="btn btn-info mt-2"/>
+            <input type="submit" name="validate_change" value="Changer" class="btn btn-info mt-2"/>
           </form>
           <form action="{% url 'change_password' %}" method="post">
             <p class="text-white">Changez mot de passe</p>
@@ -35,14 +35,14 @@
             <input type="password" size="30" placeholder="Nouveau mot de passe" class="form-control" name="change_password">
             <input type="password" size="30" placeholder="Retapez votre nouveau mot de passe" class="form-control mt-2" name="new_password">
             <input type="password" size="30" placeholder="Tapez votre ancien mot de passe" class="form-control mt-2" name="old_password">
-            <input type="submit" name="change_password" value="Changer" class="btn btn-info mt-2"/>
+            <input type="submit" name="validate_change" value="Changer" class="btn btn-info mt-2"/>
           </form>
           <form action="{% url 'change_email' %}" method="post">
             <p class="text-white">Changez votre email</p>
             {% csrf_token %}
             <input type="email" size="30" placeholder="Nouvel email" class="form-control mt-2" name="change_email">
             <input type="password" size="30" placeholder="Tapez votre mot de passe" class="form-control mt-2" name="password">
-            <input type="submit" name="change_pemail" value="Changer" class="btn btn-info mt-2"/>
+            <input type="submit" name="validate_change" value="Changer" class="btn btn-info mt-2"/>
           </form>
         </div>
       </div>
