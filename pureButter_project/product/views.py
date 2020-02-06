@@ -16,6 +16,7 @@ def index(request):
     return HttpResponse(template.render(request=request))
 
 def search(request):
+    """view called when an user make a research"""
 
     if request.method == 'POST':
         query = request.POST.get('query')
@@ -59,6 +60,7 @@ def search(request):
     return HttpResponse(template.render(context, request=request))
 
 def user_page(request):
+    """view called when a user (any user) request the user page"""
 
     if request.user.is_authenticated:
         picture_exist = Profil.objects.filter(user=request.user.id)
@@ -77,6 +79,8 @@ def user_page(request):
         return HttpResponse(template.render(request=request))
 
 def create_user(request):
+    """view called when a user on the login page try to create a new
+    registered user"""
 
     if request.method == 'POST':
         create_username = request.POST.get('create_username')
@@ -103,6 +107,7 @@ def create_user(request):
         return HttpResponse(template.render(request=request))
 
 def connect_user(request):
+    """view called when a user try to login on the login page"""
 
     if request.method == 'POST':
         login_username = request.POST.get('login_username')
@@ -143,6 +148,7 @@ def connect_user(request):
         return HttpResponse(template.render(request=request))
 
 def save(request):
+    """view called when a logged user save a new favorite"""
 
     if request.method == 'POST':
         product_to_save = request.POST.get('product_id')
@@ -160,6 +166,7 @@ def save(request):
         return HttpResponse(template.render(request=request))
 
 def product_page(request, product_id):
+    """view called when a user want to see the page of a product"""
 
     product = Product.objects.get(id=product_id)
     registered = False
@@ -174,6 +181,7 @@ def product_page(request, product_id):
     return HttpResponse(template.render(context, request=request))
 
 def user_product(request):
+    """view called when a logged user wants to see his favorite"""
 
     products = Product.objects.filter(user=request.user.id).order_by('id')
     paginator = Paginator(products, 6)
@@ -189,17 +197,22 @@ def user_product(request):
     return HttpResponse(template.render(context, request=request))
 
 def user_logout(request):
+    """view called when a user wants to log out (a visitor will just be
+    redirected to the index)"""
 
     logout(request)
     template = loader.get_template('product/index.html')
     return HttpResponse(template.render(request=request))
 
 def legal_notice(request):
+    """view called when the user wants to see the legal notice page"""
 
     template = loader.get_template('product/legalnotice.html')
     return HttpResponse(template.render(request=request))
 
 def delete(request):
+    """view called when a user wants to delete a favorite previously
+    registered"""
 
     del_mess = False
     if request.method == 'POST':
@@ -221,6 +234,7 @@ def delete(request):
     return HttpResponse(template.render(context, request=request))
 
 def change_username(request):
+    """view called if a user wants to change his username"""
 
     if request.method == 'POST':
         new_username = request.POST.get('change_username')
@@ -236,10 +250,11 @@ def change_username(request):
                 user = User.objects.get(username=request.user.username)
                 user.username = new_username
                 user.save()
-                context = {"change": "Pseudo modifié!",
-                           "user_name": new_username,
-                           "user_email": request.user.email}
-                template = loader.get_template('product/user.html')
+                logout(request)
+                context = {"created":
+                           "Pseudo modifié! Veuillez vous reconnecter",
+                          }
+                template = loader.get_template('product/login.html')
                 return HttpResponse(template.render(context, request=request))
         else:
             context = {"change": "Remplissez tous les champs.",
@@ -254,6 +269,7 @@ def change_username(request):
         return HttpResponse(template.render(context, request=request))
 
 def change_password(request):
+    """view called if a user wants to change his password"""
 
     if request.method == 'POST':
         new_password = request.POST.get('change_password')
@@ -266,11 +282,11 @@ def change_password(request):
             print(user.username)
             user.set_password(new_password)
             user.save()
-            context = {"change": "Mot de passe modifié!",
-                       "user_name": request.user.username,
-                       "user_email": request.user.email}
-            #renvoyer vers l'index ou page de co
-            template = loader.get_template('product/user.html')
+            logout(request)
+            context = {"created":
+                       "Mot de passe modifié! Veuillez vous reconnecter"
+                      }
+            template = loader.get_template('product/login.html')
             return HttpResponse(template.render(context, request=request))
         else:
             context = {"change": "Remplissez tous les champs.",
@@ -285,6 +301,7 @@ def change_password(request):
         return HttpResponse(template.render(context, request=request))
 
 def change_email(request):
+    """view called if a user wants to change his email"""
 
     if request.method == 'POST':
         new_email = request.POST.get('change_email')
@@ -300,10 +317,11 @@ def change_email(request):
                 user = User.objects.get(username=request.user.username)
                 user.email = new_email
                 user.save()
-                context = {"change": "Email modifié!",
-                           "user_name": request.user.username,
-                           "user_email": new_email}
-                template = loader.get_template('product/user.html')
+                logout(request)
+                context = {"created":
+                           "Email modifié! Veuillez vous reconnecter"
+                          }
+                template = loader.get_template('product/login.html')
                 return HttpResponse(template.render(context, request=request))
         else:
             context = {"change": "Remplissez tous les champs.",
@@ -318,6 +336,7 @@ def change_email(request):
         return HttpResponse(template.render(context, request=request))
 
 def change_picture(request):
+    """view called if a user wants to change his picture profil"""
 
     if request.method == 'POST':
         picture_url = request.POST.get('picture_url')

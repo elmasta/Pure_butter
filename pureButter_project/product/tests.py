@@ -1,7 +1,7 @@
 from django.test import TestCase
 from django.urls import reverse
 from django.contrib.auth.models import User
-from .models import Category, Product
+from .models import Category, Product, Profil
 
 class StatusCodeTestCase(TestCase):
     """Test if the views that must return a status_code 200 return that
@@ -95,6 +95,18 @@ class UserTestCase(TestCase):
         response = self.client.get(reverse('user_page'))
         self.assertEqual(response.context['user_name'], 'testb')
 
+    def test_user_page_connected_withpic(self):
+        """Test if the user which has a profil picture can go to his user page
+        when connected"""
+
+        self.client.login(username='testb', password='0000')
+        Profil.objects.create(
+            image_url='http://www.lololololol.com',
+            user=self.user)
+        response = self.client.get(reverse('user_page'))
+        self.assertEqual(response.context['picture'],
+                         'http://www.lololololol.com')
+
     def test_user_page_notconnected(self):
         """Test if a visitor can't go to the user page"""
 
@@ -113,6 +125,19 @@ class UserTestCase(TestCase):
             'login_password':'0000'
             })
         self.assertEqual(response.context['user'].is_authenticated, True)
+
+    def test_connect_user_page_withpic(self):
+        """Test the user connection view if the user has a profil picture"""
+
+        Profil.objects.create(
+            image_url='http://www.lololololol.com',
+            user=self.user)
+        response = self.client.post(reverse('connect_user'), data={
+            'login_username':'testb',
+            'login_password':'0000'
+            })
+        self.assertEqual(response.context['picture'],
+                         'http://www.lololololol.com')
 
     def test_connect_user_fail(self):
         """Test the fail connection condition in the connect user view"""
@@ -141,6 +166,106 @@ class UserTestCase(TestCase):
         self.client.login(username='testb', password='0000')
         response = self.client.get(reverse('user_logout'))
         self.assertEqual(response.context['user'].is_authenticated, False)
+
+    def test_changeusername_page(self):
+        """Test the change username view"""
+
+        self.client.login(username='testb', password='0000')
+        #also test if the page is reloaded if there's no post method.
+        response = self.client.get(reverse('change_username'))
+        self.assertEqual(response.status_code, 200)
+        response = self.client.post(reverse('change_username'), data={
+            'change_username':'testb',
+            'password':'0000'
+            })
+        self.assertEqual(response.context['change'],
+                         "Ce pseudo est déjà utilisé.")
+        response = self.client.post(reverse('change_username'), data={
+            'change_username':'testb'
+            })
+        self.assertEqual(response.context['change'],
+                         "Remplissez tous les champs.")
+        response = self.client.post(reverse('change_username'), data={
+            'change_username':'testz',
+            'password':'0000'
+            })
+        self.assertEqual(response.context['created'],
+                         "Pseudo modifié! Veuillez vous reconnecter")
+
+    def test_changepassword_page(self):
+        """Test the change password view"""
+
+        self.client.login(username='testb', password='0000')
+        #also test if the page is reloaded if there's no post method.
+        response = self.client.get(reverse('change_password'))
+        self.assertEqual(response.status_code, 200)
+        response = self.client.post(reverse('change_password'), data={
+            'change_password':'testb'
+            })
+        self.assertEqual(response.context['change'],
+                         "Remplissez tous les champs.")
+        response = self.client.post(reverse('change_password'), data={
+            'change_password':'4444',
+            'new_password':'4444',
+            'old_password':'0000'
+            })
+        self.assertEqual(response.context['created'],
+                         "Mot de passe modifié! Veuillez vous reconnecter")
+
+    def test_changeemail_page(self):
+        """Test the change email view"""
+
+        self.client.login(username='testb', password='0000')
+        #also test if the page is reloaded if there's no post method.
+        response = self.client.get(reverse('change_email'))
+        self.assertEqual(response.status_code, 200)
+        response = self.client.post(reverse('change_email'), data={
+            'change_email':'test@b.com',
+            'password':'0000'
+            })
+        self.assertEqual(response.context['change'],
+                         "Cet email est déjà utilisé.")
+        response = self.client.post(reverse('change_email'), data={
+            'change_email':'testb@g.com'
+            })
+        self.assertEqual(response.context['change'],
+                         "Remplissez tous les champs.")
+        response = self.client.post(reverse('change_email'), data={
+            'change_email':'test@z.com',
+            'password':'0000'
+            })
+        self.assertEqual(response.context['created'],
+                         "Email modifié! Veuillez vous reconnecter")
+
+    def test_changepicture_page(self):
+        """Test the change picture view"""
+
+        self.client.login(username='testb', password='0000')
+        response = self.client.get(reverse('change_picture'))
+        self.assertEqual(response.context['picture'], False)
+        Profil.objects.create(
+            image_url='http://www.lololololol.com',
+            user=self.user)
+        response = self.client.get(reverse('change_picture'))
+        self.assertEqual(response.context['picture'],
+                         'http://www.lololololol.com')
+        response = self.client.post(reverse('change_picture'), data={
+            'picture_url':'http://www.lalalalala.com'
+            })
+        picture_test = Profil.objects.get(user=self.user)
+        self.assertEqual(response.context['picture'],
+                         picture_test.image_url)
+
+    def test_changepicture_new(self):
+        """Test the change picture view if the user had no picture before"""
+
+        self.client.login(username='testb', password='0000')
+        response = self.client.post(reverse('change_picture'), data={
+            'picture_url':'http://www.lalalalala.com'
+            })
+        picture_test = Profil.objects.get(user=self.user)
+        self.assertEqual(response.context['picture'],
+                         picture_test.image_url)
 
 class ProductTestCase(TestCase):
     """Product related testing class"""
@@ -171,14 +296,31 @@ class ProductTestCase(TestCase):
         """Test the views that record and retrievs links between user and
         products. Test also the product searching view"""
 
+        #the next 3 assert are search test
+        response = self.client.post(reverse('search'), data={'category':'1'})
+        for products in response.context["products"]:
+            if products.name == "dolce regina":
+                search_result = "dolce regina"
+        self.assertEqual(search_result, self.product.name)
+
         response = self.client.post(reverse('search'), data={
             'query':'dolce', 'category':'1'})
         for products in response.context["products"]:
             if products.name == "dolce regina":
                 search_result = "dolce regina"
         self.assertEqual(search_result, self.product.name)
+
+        response = self.client.get(reverse('search'))
+        for products in response.context["products"]:
+            if products.name == "dolce regina":
+                search_result = "dolce regina"
+        self.assertEqual(search_result, self.product.name)
+
+        #test if product page return 200
         response = self.client.get(reverse('product_page', args=(1,)))
         self.assertEqual(response.status_code, 200)
+
+        #test if a favorite is saved in database
         self.client.login(username='testb', password='0000')
         response = self.client.post(reverse('save'), data={
             'product_id':1})
@@ -188,9 +330,35 @@ class ProductTestCase(TestCase):
             if product.id == 1:
                 test = "ok"
         self.assertEqual(test, "ok")
+
+        #test if a product saved appear on the user product page
         response = self.client.get(reverse('user_product'))
         products = response.context['products']
         for product in products:
             if product.id == 1:
                 test = "ok"
+        self.assertEqual(test, "ok")
+
+        #test if a product saved doesn't appear in new search
+        response = self.client.post(reverse('search'), data={'category':'1'})
+        test = "ok"
+        for products in response.context["products"]:
+            if products.name == "dolce regina":
+                test = "bad"
+        self.assertEqual(test, "ok")
+
+        #test if product page return 200 even without post method or favorite
+        #deletion
+        #view's named "delete" but path's named "del"
+        response = self.client.get(reverse('del'))
+        self.assertEqual(response.context['del_mess'], False)
+
+        #test the favorite deletion
+        response = self.client.post(reverse('del'), data={
+            'product_id':1})
+        test = "ok"
+        products = Product.objects.filter(user=response.context['user'].id)
+        for product in products:
+            if product.id == 1:
+                test = "bad"
         self.assertEqual(test, "ok")
