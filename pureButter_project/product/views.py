@@ -6,7 +6,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
 from django.contrib.auth.hashers import check_password
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
-from .models import Product
+from .models import Product, Profil
 
 logger = logging.getLogger(__name__)
 
@@ -25,12 +25,23 @@ def search(request):
     else:
         query = request.session['query']
         category = request.session['category']
-    if not query:
-        products = get_list_or_404(Product.objects.order_by(
-            'nutrition_grades'), category=category)
+    if request.user.is_authenticated:
+        if not query:
+            products = get_list_or_404(Product.objects.exclude(
+                id__in=Product.objects.filter(user=request.user.id)).order_by(
+                    'nutrition_grades'), category=category)
+        else:
+            products = get_list_or_404(Product.objects.exclude(
+                id__in=Product.objects.filter(user=request.user.id)).order_by(
+                    'nutrition_grades'), category=category,
+                                       name__icontains=query)
     else:
-        products = get_list_or_404(Product.objects.order_by(
-            'nutrition_grades'), category=category, name__icontains=query)
+        if not query:
+            products = get_list_or_404(Product.objects.order_by(
+                'nutrition_grades'), category=category)
+        else:
+            products = get_list_or_404(Product.objects.order_by(
+                'nutrition_grades'), category=category, name__icontains=query)
     paginator = Paginator(products, 6)
     page = request.GET.get('page')
     try:
@@ -50,8 +61,15 @@ def search(request):
 def user_page(request):
 
     if request.user.is_authenticated:
+        picture_exist = Profil.objects.filter(user=request.user.id)
+        if picture_exist.exists():
+            picture_exist = Profil.objects.get(user=request.user.id)
+            picture = picture_exist.image_url
+        else:
+            picture = False
         context = {"user_name": request.user.username,
-                   "user_email": request.user.email}
+                   "user_email": request.user.email,
+                   "picture": picture}
         template = loader.get_template('product/user.html')
         return HttpResponse(template.render(context, request=request))
     else:
@@ -95,8 +113,15 @@ def connect_user(request):
                                     password=login_password)
                 if user is not None:
                     login(request, user)
+                    picture_exist = Profil.objects.filter(user=request.user.id)
+                    if picture_exist.exists():
+                        picture_exist = Profil.objects.get(user=request.user.id)
+                        picture = picture_exist.image_url
+                    else:
+                        picture = False
                     context = {"user_name": request.user.username,
-                               "user_email": request.user.email}
+                               "user_email": request.user.email,
+                               "picture": picture}
                     template = loader.get_template('product/user.html')
                     return HttpResponse(template.render(context,
                                                         request=request))
@@ -291,3 +316,33 @@ def change_email(request):
                    "user_email": request.user.email}
         template = loader.get_template('product/user.html')
         return HttpResponse(template.render(context, request=request))
+
+def change_picture(request):
+
+    if request.method == 'POST':
+        picture_url = request.POST.get('picture_url')
+        if picture_url:
+            picture_exist = Profil.objects.filter(user=request.user.id)
+            if picture_exist.exists():
+                picture_exist = Profil.objects.get(user=request.user.id)
+                picture_exist.image_url = picture_url
+                picture_exist.save()
+            else:
+                new_picture = Profil(image_url=picture_url, user=request.user)
+                new_picture.save()
+            context = {"user_name": request.user.username,
+                       "user_email": request.user.email,
+                       "picture": picture_url}
+            template = loader.get_template('product/user.html')
+            return HttpResponse(template.render(context, request=request))
+    picture_exist = Profil.objects.filter(user=request.user.id)
+    if picture_exist.exists():
+        picture_exist = Profil.objects.get(user=request.user.id)
+        picture = picture_exist.image_url
+    else:
+        picture = False
+    context = {"user_name": request.user.username,
+               "user_email": request.user.email,
+               "picture": picture}
+    template = loader.get_template('product/user.html')
+    return HttpResponse(template.render(context, request=request))

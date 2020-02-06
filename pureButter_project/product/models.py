@@ -13,3 +13,7 @@ class Product(models.Model):
     nutrional_url = models.CharField(max_length=400)
     user = models.ManyToManyField(User, related_name='product_id')
     category = models.ForeignKey(Category, on_delete=models.CASCADE)
+
+class Profil(models.Model):
+    image_url = models.CharField(max_length=400)
+    user = models.OneToOneField(User, on_delete=models.CASCADE)

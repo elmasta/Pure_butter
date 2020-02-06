@@ -3,7 +3,16 @@
 {% load static %}
 
 {% block content %}
-  <header class="account colored">
+  {% if picture is False %}
+    <header class="account colored">
+  {% else %}
+    <header class="user_picture picture"> 
+      <style> header.user_picture {
+        background: -webkit-gradient(linear, left top, left bottom, from(rgba(255, 165, 0, 0.8)), to(rgba(255, 165, 0, 0.8))), url("{{ picture }}");
+        background: linear-gradient(to bottom, rgba(255, 165, 0, 0.8) 0%, rgba(255, 165, 0, 0.8) 100%), url("{{ picture }}");
+        }
+      </style>
+  {% endif %}
     <div class="container h-100">
       <div class="row h-100 align-items-center justify-content-center text-center">
         <div class="col-lg-10 align-self-end"></div>
@@ -15,8 +24,7 @@
     </div>
   </header>
 
-  <section class="h-50">
-    <div class="container">
+    <div class="container-fluid p-0">
       <div class="row align-items-center justify-content-center text-center py-5 my-5">
         <div class="col-lg-9 align-self-baseline ">
           <p class="custom">Votre email est: {{ user_email }}</p>
@@ -44,8 +52,13 @@
             <input type="password" size="30" placeholder="Tapez votre mot de passe" class="form-control mt-2" name="password">
             <input type="submit" name="validate_change" value="Changer" class="btn btn-info mt-2"/>
           </form>
+          <form action="{% url 'change_picture' %}" method="post">
+            <p class="text-white">Changez votre image de profile</p>
+            {% csrf_token %}
+            <input type="text" size="30" placeholder="Url de l'image" class="form-control" name="picture_url">
+            <input type="submit" name="validate_change" value="Changer" class="btn btn-info mt-2"/>
+          </form>
         </div>
       </div>
     </div>
-  </section>
 {% endblock %}

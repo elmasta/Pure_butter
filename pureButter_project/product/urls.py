@@ -14,5 +14,6 @@ urlpatterns = [
     path('legal_notice', views.legal_notice, name='legal_notice'),
     path('change_username', views.change_username, name='change_username'),
     path('change_password', views.change_password, name='change_password'),
-    path('change_email', views.change_email, name='change_email')
+    path('change_email', views.change_email, name='change_email'),
+    path('change_picture', views.change_picture, name='change_picture')
 ]
