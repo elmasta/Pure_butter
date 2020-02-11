@@ -1,4 +1,5 @@
 import logging
+import re
 from django.shortcuts import get_list_or_404
 from django.template import loader
 from django.http import HttpResponse
@@ -67,6 +68,9 @@ def user_page(request):
         if picture_exist.exists():
             picture_exist = Profil.objects.get(user=request.user.id)
             picture = picture_exist.image_url
+            regex = re.compile("http:")
+            if regex.match(picture) == None:
+                picture = False
         else:
             picture = False
         context = {"user_name": request.user.username,
@@ -122,6 +126,9 @@ def connect_user(request):
                     if picture_exist.exists():
                         picture_exist = Profil.objects.get(user=request.user.id)
                         picture = picture_exist.image_url
+                        regex = re.compile("http:")
+                        if regex.match(picture) == None:
+                            picture = False
                     else:
                         picture = False
                     context = {"user_name": request.user.username,
@@ -349,6 +356,9 @@ def change_picture(request):
             else:
                 new_picture = Profil(image_url=picture_url, user=request.user)
                 new_picture.save()
+            regex = re.compile("http:")
+            if regex.match(picture_url) == None:
+                picture_url = False
             context = {"user_name": request.user.username,
                        "user_email": request.user.email,
                        "picture": picture_url}
@@ -358,6 +368,9 @@ def change_picture(request):
     if picture_exist.exists():
         picture_exist = Profil.objects.get(user=request.user.id)
         picture = picture_exist.image_url
+        regex = re.compile("http:")
+        if regex.match(picture) == None:
+            picture = False
     else:
         picture = False
     context = {"user_name": request.user.username,

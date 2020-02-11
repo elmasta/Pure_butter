@@ -8,8 +8,8 @@
   {% else %}
     <header class="user_picture picture"> 
       <style> header.user_picture {
-        background: -webkit-gradient(linear, left top, left bottom, from(rgba(232, 167, 93, 0.8)), to(rgba(232, 167, 93, 0.8))), url("{{ picture }}");
-        background: linear-gradient(to bottom, rgba(232, 167, 93, 0.8) 0%, rgba(232, 167, 93, 0.8) 100%), url("{{ picture }}");
+        background: -webkit-gradient(linear, left top, left bottom, from(rgba(92, 77, 66, 0.8)), to(rgba(92, 77, 66, 0.8))), url("{{ picture }}");
+        background: linear-gradient(to bottom, rgba(92, 77, 66, 0.8) 0%, rgba(92, 77, 66, 0.8) 100%), url("{{ picture }}");
         }
       </style>
   {% endif %}
@@ -57,7 +57,7 @@
           </form>
           <hr class="divider my-4">
           <form action="{% url 'change_picture' %}" method="post">
-            <p class="custom">Changez votre image de profile:</p>
+            <p class="custom">Changez votre image de profile (preferez un image qui a pour dimensions 1920x1080):</p>
             {% csrf_token %}
             <input type="text" size="30" placeholder="Url de l'image" class="form-control" name="picture_url">
             <input type="submit" name="validate_change" value="Changer" class="btn btn-info mt-2"/>
